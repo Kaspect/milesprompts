@@ -16,17 +16,16 @@
     <script src="helper_scripts.js"></script>
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.core.min.css">
-           
     <style>
     #top_panel {
-position: sticky;
+        position: sticky;
         top: 0;
         z-index: 999;
         background: #f7f3eb;
     }
 
     #main_body {
-        
+
         overflow: auto;
     }
 
@@ -106,17 +105,16 @@ position: sticky;
                     <button id="rec" onclick="onBtnRecordClicked(); console.log('start' + Date.now().toString())">Record</button>
                     <button id="stop" onclick="onBtnStopClicked(); console.log('end' + Date.now().toString())" disabled>Stop</button>
                     <button id="myButton" onmouseup='beep();var button = document.getElementById("myButton");button.innerHTML = button.innerHTML + " ✅";'>Enable Sound Beeps</button>
-                    <button id="timesync" onmouseup='syncbeep();var button = document.getElementById("timesync");button.innerHTML = "unixtime" + Date.now().toString();'>Run Time-Sync Beep</button>
-                     <!-- <button id="stateButton" onclick="onStateClicked()">trace state</button> -->
+                    <button id="timesync" onmouseup='var button = document.getElementById("timesync");button.innerHTML = "unixtime" + syncbeep();'>Run Time-Sync Beep</button>
+                    <!-- <button id="stateButton" onclick="onStateClicked()">trace state</button> -->
                 </div>
             </div>
             <a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href></a>
             <details>
                 <summary>Advanced Logs</summary>
-               
                 <p id="data">Log data will land here</p>
             </details>
-    <script src="video_adapter_latest.js"></script>
+            <script src="video_adapter_latest.js"></script>
             <script src="video_main.js"></script>
         </div>
     </div>
@@ -131,6 +129,7 @@ position: sticky;
                 <!-- Bullets will be added here -->
             </div>
         </div>
+        <button onclick="downloadJSON(export_observations(), 'slide_observations_'+Date.now().toString()+'.json')">Download JSON for Slide Observations</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/glide.min.js"></script>
     <script>
@@ -193,8 +192,7 @@ position: sticky;
 
 
 
-
-
+    const observations = [];
 
     function createSlide(phrase, trialIndex, phraseIndex) {
         var listItem = document.createElement('li');
@@ -217,7 +215,6 @@ position: sticky;
             video.src = phrase.videoPath;
             video.controls = true;
             videoContainer.appendChild(video);
-
             listItem.appendChild(videoContainer);
         }
         //add primary image
@@ -236,13 +233,44 @@ position: sticky;
         return listItem;
     }
 
+    function createTitleSlide(header_str, subtitle_str) {
+        var listItem = document.createElement('li');
+        listItem.className = 'glide__slide';
+
+        var indexText = document.createElement('div');
+        indexText.className = 'slide-index';
+        indexText.innerHTML = "<h1>" + header_str + "</h1>" + "<hr>" + "<h3>" + subtitle_str + "</h3>";
+        listItem.appendChild(indexText);
+        return listItem;
+    }
+
+    function export_observations() {
+        return (observations)
+    }
+
+    function downloadJSON(data, filename) {
+        var jsonString = JSON.stringify(data);
+        var blob = new Blob([jsonString], { type: 'application/json' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+
+
     function initializeCarousel() {
         var slidesContainer = document.getElementById('slides-container');
+        slidesContainer.appendChild(createTitleSlide("FIRST SLIDE", "subtitle"))
         jsonData.trials.trial.forEach((trial, trialIndex) => {
             trial.phrases.forEach((phrase, phraseIndex) => {
                 slidesContainer.appendChild(createSlide(phrase, trialIndex, phraseIndex));
             });
         });
+        slidesContainer.appendChild(createTitleSlide("END SLIDE", "subtitle"))
 
         var glide = new Glide('.glide', {
             type: 'carousel',
@@ -251,7 +279,25 @@ position: sticky;
         });
 
         // Attach the beep function to the run.after event
-        glide.on('run.before', beep);
+        glide.on('run.before', function() {
+            beep();
+            let transition_time = Date.now().toString()
+            let currentIndex = glide.index;
+            let myslideData = slidesContainer.children[currentIndex + 1].innerHTML
+            let content = { "unixtime_ms": transition_time, "slideData": myslideData, "slide_status": "END showing slide" }
+            observations.push(content)
+            console.log(`before, index is ${glide.index}; slide content is ${myslideData}`)
+        });
+
+        glide.on('run.after', function() {
+             let transition_time = Date.now().toString()
+            let currentIndex = glide.index;
+            let myslideData = slidesContainer.children[currentIndex + 1].innerHTML
+            let content = { "unixtime_ms": transition_time, "slideData": myslideData, "slide_status": "BEGIN showing slide" }
+            observations.push(content)
+            console.log(`before, index is ${glide.index}; slide content is ${myslideData}`)
+        });
+
 
         glide.mount();
 
