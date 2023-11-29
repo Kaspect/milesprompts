@@ -14,8 +14,22 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Patua+One&display=swap" rel="stylesheet">
     <script src="helper_scripts.js"></script>
+    <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.core.min.css">
+           
     <style>
+    #top_panel {
+position: sticky;
+        top: 0;
+        z-index: 999;
+        background: #f7f3eb;
+    }
+
+    #main_body {
+        
+        overflow: auto;
+    }
+
     .video-container {
         width: 500px;
         height: 500px;
@@ -50,7 +64,7 @@
         margin: 10px;
         padding: 10px;
         text-align: center;
-        font-size: 40px;
+        font-size: 30px;
     }
 
     .glide__slide p {
@@ -82,17 +96,40 @@
 
 <body>
     <div id="top_panel">
-        <button id="myButton" onmouseup='beep();var button = document.getElementById("myButton");button.innerHTML = button.innerHTML + " ✅";'>Enable Sound Beeps</button>
-        <button id="timesync" onmouseup='syncbeep();var button = document.getElementById("timesync");button.innerHTML = "unixtime" + Date.now().toString();'>Run Time-Sync Beep</button>
-    </div>
-    <div class="glide">
-        <div class="glide__track" data-glide-el="track">
-            <ul class="glide__slides" id="slides-container">
-                <!-- Slides will be added here -->
-            </ul>
+        <div id="recording_module">
+            <div id="progressBar">
+                <div id="progressBarFilled">0%</div>
+            </div>
+            <div>
+                <video id="live" controls autoplay playsinline muted></video>
+                <div id="controls">
+                    <button id="rec" onclick="onBtnRecordClicked(); console.log('start' + Date.now().toString())">Record</button>
+                    <button id="stop" onclick="onBtnStopClicked(); console.log('end' + Date.now().toString())" disabled>Stop</button>
+                    <button id="myButton" onmouseup='beep();var button = document.getElementById("myButton");button.innerHTML = button.innerHTML + " ✅";'>Enable Sound Beeps</button>
+                    <button id="timesync" onmouseup='syncbeep();var button = document.getElementById("timesync");button.innerHTML = "unixtime" + Date.now().toString();'>Run Time-Sync Beep</button>
+                     <!-- <button id="stateButton" onclick="onStateClicked()">trace state</button> -->
+                </div>
+            </div>
+            <a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href></a>
+            <details>
+                <summary>Advanced Logs</summary>
+               
+                <p id="data">Log data will land here</p>
+            </details>
+    <script src="video_adapter_latest.js"></script>
+            <script src="video_main.js"></script>
         </div>
-        <div class="glide__bullets" data-glide-el="controls[nav]">
-            <!-- Bullets will be added here -->
+    </div>
+    <div id="main_body">
+        <div class="glide">
+            <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides" id="slides-container">
+                    <!-- Slides will be added here -->
+                </ul>
+            </div>
+            <div class="glide__bullets" data-glide-el="controls[nav]">
+                <!-- Bullets will be added here -->
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/glide.min.js"></script>
