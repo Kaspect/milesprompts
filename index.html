@@ -1,391 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trials Display</title>
     <style>
-        .slide {
-            border: 1px solid black;
-            margin: 10px;
-            padding: 10px;
-        }
+    .slide {
+        border: 1px solid black;
+        margin: 10px;
+        padding: 10px;
+    }
     </style>
-
-
     <link href="https://fonts.googleapis.com/css2?family=Patua+One&display=swap" rel="stylesheet">
-
-
-
+    <script src="helper_scripts.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.core.min.css">
+    <style>
+    .video-container {
+        width: 500px;
+        height: 500px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .video-container video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+
+    .glide {
+        width: 80%;
+        margin: auto;
+    }
+
+    .glide__track {
+        overflow: hidden;
+    }
+
+    .glide__slides {
+        list-style: none;
+        padding: 0;
+    }
+
+    .glide__slide {
+        border: 1px solid black;
+        margin: 10px;
+        padding: 10px;
+        text-align: center;
+        font-size: 40px;
+    }
+
+    .glide__slide p {
+        font-family: 'Patua One', sans-serif;
+    }
+
+
+    .glide__bullets {
+        text-align: center;
+    }
+
+    .glide__bullet {
+        background: #ccc;
+    }
+
+    .glide__bullet--active {
+        background: #333;
+    }
 
 
 
-      <style>
-        .video-container {
- width: 500px;
- height: 500px;
- overflow: hidden;
- position: relative;
-}
+ #top_panel {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
 
-.video-container video {
- width: 100%;
- height: 100%;
- object-fit: cover;
- object-position: center;
-}
-
-
-        .glide {
-            width: 80%;
-            margin: auto;
-        }
-
-        .glide__track {
-            overflow: hidden;
-        }
-
-        .glide__slides {
-            list-style: none;
-            padding: 0;
-        }
-
-        .glide__slide {
-            border: 1px solid black;
-            margin: 10px;
-            padding: 10px;
-            text-align: center;
-            font-size: 40px;
-        }
-
-        .glide__slide p {
-            font-family: 'Patua One', sans-serif;
-        }
-
-
-        .glide__bullets {
-            text-align: center;
-        }
-
-        .glide__bullet {
-            background: #ccc;
-        }
-
-        .glide__bullet--active {
-            background: #333;
-        }
-    </style>
+     </style>
 </head>
+
 <body>
+    <div id="top_panel">
+        <button id="myButton" onmouseup='beep();var button = document.getElementById("myButton");button.innerHTML = button.innerHTML + " ✅";'>Enable Sound Beeps</button>   
+        <button id="timesync" onmouseup='syncbeep();var button = document.getElementById("timesync");button.innerHTML = "unixtime" + Date.now().toString();'>Run Time-Sync Beep</button>
 
-<div class="glide">
-    <div class="glide__track" data-glide-el="track">
-        <ul class="glide__slides" id="slides-container">
-            <!-- Slides will be added here -->
-        </ul>
+
     </div>
-    <div class="glide__bullets" data-glide-el="controls[nav]">
-        <!-- Bullets will be added here -->
+
+
+    <div class="glide">
+        <div class="glide__track" data-glide-el="track">
+            <ul class="glide__slides" id="slides-container">
+                <!-- Slides will be added here -->
+            </ul>
+        </div>
+        <div class="glide__bullets" data-glide-el="controls[nav]">
+            <!-- Bullets will be added here -->
+        </div>
     </div>
-</div>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/glide.min.js"></script>
-
-
-
-<script>
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/glide.min.js"></script>
+    <script>
     // Your JSON data
     var jsonData = {
-    "trials": {
-        "trial": [
-            {
-                "name": "Trial 01",
-                "pluggedNose": "false",
-                "challengeAmount": "1",
-                "randomizeTrial": "false",
-                "phrases": [
-                    {
-                        "text": "Tip toe through the tulips",
-                        "imagePath": "https://raw.githubusercontent.com/Kaspect/ospeech-library/main/images/dog.png",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Thad-took-a-bath.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Zip and zap the zipper",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Zip-and-zap-the-zipper.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Ten tiny turtles",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Ten-tiny-turtles.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Thad took a bath",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Thad-took-a-bath.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Shelly shops at the shoe store",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Shelly-shops-at-the-shoe-store.mp4",
-                        "imageCompanionPath": ""
-                    },
-                    {
-                        "text": "Terry tied two shoes",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Terry-tied-two-shoes.mp4",
-                        "imageCompanionPath": ""
-                    },
-                    {
-                        "text": "Charlie likes chocolate chip cookies",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Charlie-likes-chocolate-chip-cookies.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Katie cut the Chocolate cake",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Katie-cut-the-Chocolate-cake.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Sissy sees the sun in the sky",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Sissy-sees-the-sun-in-the-sky.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Thirty-three thumbs",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Thirty-three-thumbs.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Pack the cup",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Pack-the-cup.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Push the button",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Push-the-button.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "White rat",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/White-rat.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Pat the purple puppy",
-                        "imagePath": "null",
-                        "videoPath": "null",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Thirty three thumbs",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Pat-the-purple-puppy.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Bobbie bought a purple puppy at the store",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Bobbie-bought-a-purple-puppy-at-the-store.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Wish and wash the shark",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Wish-and-wash-the-shark.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "That is my father",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/That-is-my-father.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Five fat fish",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Five-fat-fish.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Ninty-nine nights",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Ninty-nine-nights.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Freddie caught five fat fish",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Freddie-caught-five-fat-fish.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Jack and Charlie chew gum",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Jack-and-Charlie-chew-gum.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Zip the zipper",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Zip-the-zipper.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Sherry washed the dishes",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Sherry-washed-the-dishes.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Go to bed",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Go-to-bed.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Sissy rode the seesaw with Sally",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Sissy-rode-the-seesaw-with-Sally.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Sister sees the sky",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Sister-sees-the-sky.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Sixty-six sailors",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Sixty-six-sailors.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "White lamb",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/White-lamb.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Play black jack",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Play-black-jack.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Yes, sun is fun",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Yes%2C-sun-is-fun.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Measure the garage",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Measure-the-garage.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "That is my father",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/That-is-my-father.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Daddy dug a ditch in the dirt",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Daddy-dug-a-ditch-in-the-dirt.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Kitty cut the cake",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Kitty-cut-the-cake.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Go get the wagon for the girl",
-                        "imagePath": "null",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Go-get-the-wagon-for-the-girl.mp4",
-                        "imageCompanionPath": "null"
-                    }
-                ]
-            },
-            {
-                "name": "Trial 02",
-                "pluggedNose": "true",
-                "challengeAmount": "1",
-                "randomizeTrial": "false",
-                "phrases": [
-                    {
-                        "text": "Pat the purple puppy",
-                        "imagePath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Pat-the-purple-puppy.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Kitty cut the cake",
-                        "imagePath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Kitty-cut-the-cake.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Five fat fish",
-                        "imagePath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Five-fat-fish.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Sister sees the sky",
-                        "imagePath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos//Sister-sees-the-sky.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Ninty-nine nights",
-                        "imagePath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Ninty-nine-nights.mp4",
-                        "imageCompanionPath": "null"
-                    },
-                    {
-                        "text": "Push the button",
-                        "imagePath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png",
-                        "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Push-the-button.mp4",
-                        "imageCompanionPath": "null"
-                    }
-                ]
-            }
-        ]
-    }
-};
+        "trials": {
+            "trial": [{
+                    "name": "Trial 01",
+                    "pluggedNose": "false",
+                    "challengeAmount": "1",
+                    "randomizeTrial": "false",
+                    "phrases": [{
+                            "text": "Thad took a bath",
+                            "imagePath": "https://raw.githubusercontent.com/Kaspect/ospeech-library/main/images/dog.png",
+                            "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Thad-took-a-bath.mp4",
+                            "imageCompanionPath": "null"
+                        },
+                        {
+                            "text": "Zip and zap the zipper",
+                            "imagePath": "null",
+                            "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Zip-and-zap-the-zipper.mp4",
+                            "imageCompanionPath": "null"
+                        },
+                        {
+                            "text": "Go get the wagon for the girl",
+                            "imagePath": "null",
+                            "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Go-get-the-wagon-for-the-girl.mp4",
+                            "imageCompanionPath": "null"
+                        }
+                    ]
+                },
+                {
+                    "name": "Trial 02",
+                    "pluggedNose": "true",
+                    "challengeAmount": "1",
+                    "randomizeTrial": "false",
+                    "phrases": [{
+                            "text": "Pat the purple puppy",
+                            "imagePath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png",
+                            "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Pat-the-purple-puppy.mp4",
+                            "imageCompanionPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png"
+                        },
+                        {
+                            "text": "Kitty cut the cake",
+                            "imagePath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png",
+                            "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Kitty-cut-the-cake.mp4",
+                            "imageCompanionPath": "null"
+                        },
+                        {
+                            "text": "Push the button",
+                            "imagePath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/images/plugnose.png",
+                            "videoPath": "https://raw.githubusercontent.com/andreobvio/oSpeechXML/main/videos/Push-the-button.mp4",
+                            "imageCompanionPath": "null"
+                        }
+                    ]
+                }
+            ]
+        }
+    };
 
 
 
-// audio noises
-function beep() {
-    var snd = new  Audio("data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");  
-    snd.play();
-}
 
 
-document.getElementsByTagName("button")[0].addEventListener("click",    beep);
 
-
-       function createSlide(phrase, trialIndex, phraseIndex) {
+    function createSlide(phrase, trialIndex, phraseIndex) {
         var listItem = document.createElement('li');
         listItem.className = 'glide__slide';
 
@@ -398,22 +177,28 @@ document.getElementsByTagName("button")[0].addEventListener("click",    beep);
         text.textContent = phrase.text;
         listItem.appendChild(text);
 
-     if (phrase.videoPath && phrase.videoPath !== "null") {
-        var videoContainer = document.createElement('div');
-        videoContainer.className = 'video-container';
+        if (phrase.videoPath && phrase.videoPath !== "null") {
+            var videoContainer = document.createElement('div');
+            videoContainer.className = 'video-container';
 
-        var video = document.createElement('video');
-        video.src = phrase.videoPath;
-        video.controls = true;
-        videoContainer.appendChild(video);
+            var video = document.createElement('video');
+            video.src = phrase.videoPath;
+            video.controls = true;
+            videoContainer.appendChild(video);
 
-        listItem.appendChild(videoContainer);
-    }
-
+            listItem.appendChild(videoContainer);
+        }
+        //add primary image
         if (phrase.imagePath && phrase.imagePath !== "null") {
             var image = document.createElement('img');
             image.src = phrase.imagePath;
             listItem.appendChild(image);
+        }
+        //add secondary image
+        if (phrase.imageCompanionPath && phrase.imageCompanionPath !== "null") {
+            var companionImage = document.createElement('img');
+            companionImage.src = phrase.imageCompanionPath;
+            listItem.appendChild(companionImage);
         }
 
         return listItem;
@@ -427,16 +212,22 @@ document.getElementsByTagName("button")[0].addEventListener("click",    beep);
             });
         });
 
-        new Glide('.glide', {
+        var glide = new Glide('.glide', {
             type: 'carousel',
             perView: 1,
             gap: 0
-        }).mount();
+        });
+
+        // Attach the beep function to the run.after event
+        glide.on('run.before', beep);
+
+        glide.mount();
+
+
     }
 
     initializeCarousel();
-
-</script>
-
+    </script>
 </body>
+
 </html>
