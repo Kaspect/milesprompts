@@ -72,24 +72,19 @@
 
 
 
- #top_panel {
-   display: flex;
-   justify-content: center;
-   align-items: center;
- }
-
-     </style>
+    #top_panel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    </style>
 </head>
 
 <body>
     <div id="top_panel">
-        <button id="myButton" onmouseup='beep();var button = document.getElementById("myButton");button.innerHTML = button.innerHTML + " ✅";'>Enable Sound Beeps</button>   
+        <button id="myButton" onmouseup='beep();var button = document.getElementById("myButton");button.innerHTML = button.innerHTML + " ✅";'>Enable Sound Beeps</button>
         <button id="timesync" onmouseup='syncbeep();var button = document.getElementById("timesync");button.innerHTML = "unixtime" + Date.now().toString();'>Run Time-Sync Beep</button>
-
-
     </div>
-
-
     <div class="glide">
         <div class="glide__track" data-glide-el="track">
             <ul class="glide__slides" id="slides-container">
